@@ -6,7 +6,7 @@ function validatorHandler( schema, property) {
     // validar el req.body o req.query o req.params, dependiendo de la propiedad del middlware si es POST, GET, PATCH, DELETE
     // Pero como no sabemos cual sera, lo mejor seria pasarlo de forma dinamica utilizando req[property]
     // utlizamos { error } porque es una propiedad de la validacion de joi.
-    const { error } = schema.validate(req[property]);
+    const { error } = schema.validate(req[property], { abortEarly: false });
     // si hay un error, lo manejamos con boom
     if ( error ) {
       next(boom.badRequest(error));
