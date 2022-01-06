@@ -1,19 +1,12 @@
 const express = require('express');
+const CategoryService = require('../services/categoryService');
 const faker = require('faker');
 const router = express.Router();
+const service = new CategoryService();
 
-router.get('/', (req, res) => {
-  const users = [];
-  const {size} = req.query;
-  const limit = size || 10;
-  for (let i = 0; i < limit; i++) {
-    users.push({
-      categoryName: faker.commerce.department(),
-      company: faker.company.companyName(),
-      image: faker.image.image(),
-    });
-  }
-  res.json(users);
+router.get('/', async (req, res) => {
+  const categories = await service.find();
+  res.status(200).json(categories);
 });
 
 router.get('/:id', (req, res) => {

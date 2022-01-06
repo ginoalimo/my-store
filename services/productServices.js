@@ -1,5 +1,6 @@
 const faker = require('faker');
 const boom = require('@hapi/boom');
+const pool = require('../libs/postgresPool');
 
 
 class ProductServices {
@@ -7,6 +8,8 @@ class ProductServices {
     this.products = [];
     this.id = 0;
     this.generateProducts();
+    this.pool = pool;
+    this.pool.on('error', (err) => console.error('Unexpected error on idle client', err));
   }
 
   generateProducts(){
@@ -32,7 +35,9 @@ class ProductServices {
   }
 
   async find (){
-    return this.products;
+    const query = 'SELECT * FROM public.tasks';
+    const rta = await this.pool.query(query)
+    return rta.rows;
   }
 
   async findOne(id){
