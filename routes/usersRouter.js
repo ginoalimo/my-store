@@ -3,7 +3,7 @@ const faker = require('faker');
 const UserService = require('../services/userServices');
 const router = express.Router();
 const service = new UserService();
-
+const { updateUserSchema, getUserSchema, createUserSchema } = require('./../schemas/userSchema');
 
 router.get('/', async (req, res, next) => {
   try {
